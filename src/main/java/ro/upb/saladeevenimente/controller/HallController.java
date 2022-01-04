@@ -31,13 +31,13 @@ public class HallController {
     }
 
     @CrossOrigin("http://localhost:3000")
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public void updateHall(@PathVariable Long id, @RequestBody Hall hall) throws SQLException {
         hallService.updateHall(id, hall);
     }
 
     @CrossOrigin("http://localhost:3000")
-    @PostMapping("/all")
+    @GetMapping("/all")
     public List<Hall> show() throws SQLException {
         return hallService.findAllHalls();
     }

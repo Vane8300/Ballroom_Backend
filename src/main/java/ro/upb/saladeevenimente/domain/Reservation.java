@@ -1,8 +1,14 @@
 package ro.upb.saladeevenimente.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "reservation")
@@ -12,8 +18,11 @@ public class Reservation {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "advance")
-    private int advance;
+    @Column(name = "description")
+    private String description;
+//
+//    @Column(name = "number_of_people")
+//    private int number_of_people;
 
     @Column(name = "confirmed")
     private boolean confirmed;
@@ -21,25 +30,77 @@ public class Reservation {
     @Column(name = "time")
     private String time;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = true)
-    private User user;
+//    @Column(name = "location")
+//    private String location;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "reservation")
-    private Event event;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @Column(name = "reservation_date")
+    private Date reservationDate;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "hall_id")
     private Hall hall;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "reservation")
+    private List<Guest> guests;
+
+    public Reservation(long id, boolean confirmed, String description, Date reservationDate, String time) {
+        this.id = id;
+        this.confirmed = confirmed;
+        this.description = description;
+//        this.location = location;
+//        this.number_of_people = number_of_people;
+        this.reservationDate = reservationDate;
+        this.time = time;
+    }
+
+    public Reservation() {}
+
+    public Reservation(long id, String description, Date reservation_date, String time) {
+        this.id = id;
+        this.description = description;
+//        this.location = location;
+//        this.number_of_people = number_of_people;
+        this.reservationDate = reservation_date;
+        this.time = time;
+
+    }
+
+    public Reservation(long id, boolean confirmed, String description,
+                       Date reservation_date, String time, Hall h) {
+        this.id = id;
+        this.confirmed = confirmed;
+        this.description = description;
+//        this.location = location;
+//        this.number_of_people = number_of_people;
+        this.reservationDate = reservation_date;
+        this.time = time;
+        this.hall = h;
+    }
+
+    public Date getReservationDate() { return reservationDate; }
+
+    public void setReservationDate(Date reservationDate) { this.reservationDate = reservationDate; }
+
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }
 
-    public int getAdvance() { return advance; }
+    public String getDescription() { return description; }
 
-    public void setAdvance(int advance) { this.advance = advance; }
+    public void setDescription(String description) { this.description = description; }
+
+//    public int getNumber_of_people() { return number_of_people; }
+//
+//    public void setNumber_of_people(int number_of_people) {
+//        this.number_of_people = number_of_people;
+//    }
 
     public boolean isConfirmed() { return confirmed; }
 
@@ -53,14 +114,12 @@ public class Reservation {
 
     public void setUser(User user) { this.user = user; }
 
-    public Event getEvent() { return event; }
-
-    public void setEvent(Event event) { this.event = event; }
-
     public Hall getHall() { return hall; }
 
     public void setHall(Hall hall) { this.hall = hall; }
-
-
+//
+//    public String getLocation() { return location; }
+//
+//    public void setLocation(String location) { this.location = location; }
 
 }

@@ -31,6 +31,15 @@ public class User {
     @OneToMany(mappedBy = "user")
     List<SheetUserWorker> sheetUserWorkers;
 
+    public  User(){};
+
+    public User(long id, String email, String first_name, String last_name) {
+        this.id = id;
+        this.email = email;
+        this.firstName = first_name;
+        this.lastName = last_name;
+    }
+
     public String getFirstName() { return firstName; }
 
     public void setFirstName(String firstName) { this.firstName = firstName; }

@@ -18,9 +18,10 @@ public class HallJdbcRepositoryImpl implements HallJdbcRepository {
                 "jdbc:mysql://localhost:3306/proiectbd",
                 "root",
                 "root");
-        PreparedStatement c = connection.prepareStatement("INSERT INTO hall(location, dimension)" + "values (?,?)");
-        c.setString(1, hall.getLocation());
-        c.setLong(2, hall.getDimension());
+        PreparedStatement c = connection.prepareStatement("INSERT INTO hall(name, location, dimension)" + "values (?, ?,?)");
+        c.setString(1, hall.getName());
+        c.setString(2, hall.getLocation());
+        c.setLong(3, hall.getDimension());
         boolean resultSet = c.execute();
         return null;
     }
@@ -42,9 +43,11 @@ public class HallJdbcRepositoryImpl implements HallJdbcRepository {
                 "jdbc:mysql://localhost:3306/proiectbd",
                 "root",
                 "root");
-        PreparedStatement c = connection.prepareStatement("UPDATE hall SET location=? WHERE id=?");
-        c.setString(1, hall.getLocation());
-        c.setLong(2, id);
+        PreparedStatement c = connection.prepareStatement("UPDATE hall SET name=?, dimension=?, location=?  WHERE id=?");
+        c.setString(1, hall.getName());
+        c.setLong(2, hall.getDimension());
+        c.setString(3, hall.getLocation());
+        c.setLong(4, id);
         c.executeUpdate();
     }
 
@@ -58,11 +61,12 @@ public class HallJdbcRepositoryImpl implements HallJdbcRepository {
                 "root");
         PreparedStatement c = connection.prepareStatement("select * from hall");
         ResultSet resultSet = c.executeQuery();
-        //Hall hall = new Hall();
         while(resultSet.next()){
 
             h = new Hall(resultSet.getLong("id"),
-                    resultSet.getLong("dimension"), resultSet.getString("location"));
+                    resultSet.getString("name"),
+                    resultSet.getLong("dimension"),
+                    resultSet.getString("location"));
             hallList.add(h);
         }
         return hallList;

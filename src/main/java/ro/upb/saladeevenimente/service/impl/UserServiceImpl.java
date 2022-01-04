@@ -7,6 +7,7 @@ import ro.upb.saladeevenimente.repository.UserJdbcRepositoryImpl;
 import ro.upb.saladeevenimente.service.UserService;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -21,6 +22,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByEmailAndPassword(String email, String password) throws SQLException {
         return userJdbcRepository.findUserByEmailAndPassword(email, password);
+    }
+
+    @Override
+    public List<User> findAllUsers() throws SQLException {
+        return userJdbcRepository.show();
+    }
+
+    @Override
+    public User getUserByEmail(String email) throws SQLException {
+        return userJdbcRepository.showUser(email);
     }
 
 

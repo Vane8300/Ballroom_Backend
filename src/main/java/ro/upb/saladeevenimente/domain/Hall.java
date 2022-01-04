@@ -13,10 +13,13 @@ public class Hall {
     @GeneratedValue
     private Long id;
 
-    @Column
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "location")
     private String location;
 
-    @Column
+    @Column(name = "dimension")
     private Long dimension;
 
     @JsonIgnore
@@ -28,11 +31,23 @@ public class Hall {
 
     public Hall() {}
 
-    public Hall(long id, long dimension, String location) {
+    public Hall(long id, String name, long dimension, String location) {
         this.id = id;
+        this.name = name;
         this.dimension = dimension;
         this.location = location;
     }
+
+    public Hall(long id, long dimension, String location, String name) {
+        this.id = id;
+        this.dimension = dimension;
+        this.location = location;
+        this.name = name;
+    }
+
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
 
     public Long getId() { return id; }
 
