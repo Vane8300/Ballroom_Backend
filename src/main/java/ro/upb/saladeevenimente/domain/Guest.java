@@ -26,6 +26,15 @@ public class Guest {
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;
 
+    public Guest() {}
+
+    public Guest(long id, String first_name, String last_name, String phone_number) {
+        this.id = id;
+        this.firstName = first_name;
+        this.lastName = last_name;
+        this.phone_number = phone_number;
+    }
+
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }

@@ -6,8 +6,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -20,18 +18,12 @@ public class Reservation {
 
     @Column(name = "description")
     private String description;
-//
-//    @Column(name = "number_of_people")
-//    private int number_of_people;
 
     @Column(name = "confirmed")
     private boolean confirmed;
 
     @Column(name = "time")
     private String time;
-
-//    @Column(name = "location")
-//    private String location;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
@@ -54,8 +46,6 @@ public class Reservation {
         this.id = id;
         this.confirmed = confirmed;
         this.description = description;
-//        this.location = location;
-//        this.number_of_people = number_of_people;
         this.reservationDate = reservationDate;
         this.time = time;
     }
@@ -65,8 +55,6 @@ public class Reservation {
     public Reservation(long id, String description, Date reservation_date, String time) {
         this.id = id;
         this.description = description;
-//        this.location = location;
-//        this.number_of_people = number_of_people;
         this.reservationDate = reservation_date;
         this.time = time;
 
@@ -77,8 +65,6 @@ public class Reservation {
         this.id = id;
         this.confirmed = confirmed;
         this.description = description;
-//        this.location = location;
-//        this.number_of_people = number_of_people;
         this.reservationDate = reservation_date;
         this.time = time;
         this.hall = h;
@@ -96,12 +82,6 @@ public class Reservation {
 
     public void setDescription(String description) { this.description = description; }
 
-//    public int getNumber_of_people() { return number_of_people; }
-//
-//    public void setNumber_of_people(int number_of_people) {
-//        this.number_of_people = number_of_people;
-//    }
-
     public boolean isConfirmed() { return confirmed; }
 
     public void setConfirmed(boolean confirmed) { this.confirmed = confirmed; }
@@ -117,9 +97,5 @@ public class Reservation {
     public Hall getHall() { return hall; }
 
     public void setHall(Hall hall) { this.hall = hall; }
-//
-//    public String getLocation() { return location; }
-//
-//    public void setLocation(String location) { this.location = location; }
 
 }

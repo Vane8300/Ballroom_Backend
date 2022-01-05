@@ -56,7 +56,6 @@ public class UserJdbcRepositoryImpl implements  UserJdbcRepository{
                 "root");
         PreparedStatement c = connection.prepareStatement("select * from user");
         ResultSet resultSet = c.executeQuery();
-        //Hall hall = new Hall();
         while(resultSet.next()){
 
             u = new User(resultSet.getLong("id"),
