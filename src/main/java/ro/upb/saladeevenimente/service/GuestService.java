@@ -12,5 +12,5 @@ public interface GuestService {
     List<Guest> findAllGuests() throws SQLException;
     List<Guest> getGuestsByReservationId(Long reservationId) throws SQLException;
     void updateGuest(Long guestId, Guest guest) throws SQLException;
-
+    int getTheNumberOfGuests(Long reservationId) throws SQLException;
 }

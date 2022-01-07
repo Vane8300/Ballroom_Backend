@@ -6,6 +6,7 @@ import ro.upb.saladeevenimente.domain.Reservation;
 import ro.upb.saladeevenimente.service.ReservationService;
 
 import java.sql.SQLException;
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -44,4 +45,30 @@ public class ReservationController {
     public void editReservation(@PathVariable Long reservationId, @RequestBody Reservation reservation) throws SQLException {
         reservationService.editReservation(reservationId, reservation);
     }
+
+    @CrossOrigin("http://localhost:3000")
+    @GetMapping("/confirmedReservations/{value}")
+    public List <Reservation> findAllConfirmedReservations(@PathVariable Boolean value) throws SQLException {
+        return reservationService.findAllConfirmedReservations(value);
+    }
+
+    @CrossOrigin("http://localhost:3000")
+    @GetMapping("/{reservationDate}")
+    public List <Reservation> findReservationsByReservationDate(@PathVariable Date reservationDate) throws SQLException {
+        return reservationService.findReservationsByReservationDate(reservationDate);
+    }
+
+    @CrossOrigin("http://localhost:3000")
+    @GetMapping("/noGuests")
+    public List <Reservation> findAllReservationsWithoutGuests() throws SQLException {
+        return reservationService.findAllReservationsWithoutGuests();
+    }
+
+    @CrossOrigin("http://localhost:3000")
+    @GetMapping("/dimensionLessThanMax")
+    public List <String> findReservationByHallDimension() throws SQLException {
+        return reservationService.findReservationByHallDimension();
+    }
+
+
 }

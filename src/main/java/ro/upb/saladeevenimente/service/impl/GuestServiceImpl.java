@@ -40,4 +40,9 @@ public class GuestServiceImpl implements GuestService {
     public void updateGuest(Long guestId, Guest guest) throws SQLException {
         guestJdbcRepository.updateGuest(guestId, guest);
     }
+
+    @Override
+    public int getTheNumberOfGuests(Long reservationId) throws SQLException {
+        return guestJdbcRepository.getTheNumberOfGuests(reservationId);
+    }
 }

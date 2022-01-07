@@ -16,8 +16,6 @@ public class SheetHall {
     @JoinColumn(name = "worker_id")
     Worker worker;
 
-    boolean availability;
-
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }
@@ -29,11 +27,6 @@ public class SheetHall {
     public Worker getWorker() { return worker; }
 
     public void setWorker(Worker worker) { this.worker = worker; }
-
-    public boolean isAvailability() { return availability; }
-
-    public void setAvailability(boolean availability) { this.availability = availability; }
-
 
 
 }

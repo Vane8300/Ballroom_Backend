@@ -9,6 +9,7 @@ import ro.upb.saladeevenimente.repository.ReservationJdbcRepositoryImpl;
 import ro.upb.saladeevenimente.service.ReservationService;
 
 import java.sql.SQLException;
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -40,4 +41,26 @@ public class ReservationServiceImpl implements ReservationService {
     public void editReservation(Long reservationId, Reservation reservation) throws SQLException {
         reservationJdbcRepository.editReservation(reservationId, reservation);
     }
+
+    @Override
+    public List<Reservation> findAllConfirmedReservations(Boolean value) throws SQLException {
+        return reservationJdbcRepository.getAllConfirmedReservations(value);
+    }
+
+    @Override
+    public List<Reservation> findReservationsByReservationDate(Date reservationDate) throws SQLException {
+        return reservationJdbcRepository.getAllReservationsByReservationDate(reservationDate);
+    }
+
+    @Override
+    public List<Reservation> findAllReservationsWithoutGuests() throws SQLException {
+        return reservationJdbcRepository.getAllReservationsWithoutGuests();
+    }
+
+    @Override
+    public List<String> findReservationByHallDimension() throws SQLException {
+        return reservationJdbcRepository.getReservationByHallDimension();
+    }
+
+
 }

@@ -22,6 +22,9 @@ public class Hall {
     @Column(name = "dimension")
     private Long dimension;
 
+    @Column(name = "price")
+    private int price;
+
     @JsonIgnore
     @OneToMany(mappedBy = "hall")
     private List<Reservation> reservationList;
@@ -43,6 +46,14 @@ public class Hall {
         this.dimension = dimension;
         this.location = location;
         this.name = name;
+    }
+
+    public Hall(long id, String name, long dimension, String location, int price) {
+        this.id = id;
+        this.name = name;
+        this.dimension = dimension;
+        this.location = location;
+        this.price = price;
     }
 
     public String getName() { return name; }
@@ -70,6 +81,10 @@ public class Hall {
     public List<SheetHall> getSheetHalls() { return sheetHalls; }
 
     public void setSheetHalls(List<SheetHall> sheetHalls) { this.sheetHalls = sheetHalls; }
+
+    public int getPrice() { return price; }
+
+    public void setPrice(int price) { this.price = price; }
 
 
 }

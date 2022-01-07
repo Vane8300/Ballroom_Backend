@@ -52,16 +52,8 @@ public class Reservation {
 
     public Reservation() {}
 
-    public Reservation(long id, String description, Date reservation_date, String time) {
-        this.id = id;
-        this.description = description;
-        this.reservationDate = reservation_date;
-        this.time = time;
-
-    }
-
-    public Reservation(long id, boolean confirmed, String description,
-                       Date reservation_date, String time, Hall h) {
+    public Reservation(long id, boolean confirmed, String description, Date reservation_date,
+                       String time, Hall h) {
         this.id = id;
         this.confirmed = confirmed;
         this.description = description;

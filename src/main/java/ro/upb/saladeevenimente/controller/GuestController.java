@@ -46,4 +46,10 @@ public class GuestController {
     public void updateGuest(@PathVariable Long guestId, @RequestBody Guest guest) throws SQLException {
         guestService.updateGuest(guestId, guest);
     }
+
+    @CrossOrigin("http://localhost:3000")
+    @GetMapping("/noGuests/{reservationId}")
+    public int getTheNumberOfGuests(@PathVariable Long reservationId) throws SQLException {
+        return guestService.getTheNumberOfGuests(reservationId);
+    }
 }

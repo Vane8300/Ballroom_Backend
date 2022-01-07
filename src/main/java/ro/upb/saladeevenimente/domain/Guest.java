@@ -22,17 +22,21 @@ public class Guest {
     @Column(name = "phone_number")
     private String phone_number;
 
+    @Column(name = "covid_certification")
+    private Boolean covid_certification;
+
     @ManyToOne
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;
 
     public Guest() {}
 
-    public Guest(long id, String first_name, String last_name, String phone_number) {
+    public Guest(long id, String first_name, String last_name, String phone_number, boolean covid_certification) {
         this.id = id;
         this.firstName = first_name;
         this.lastName = last_name;
         this.phone_number = phone_number;
+        this.covid_certification = covid_certification;
     }
 
     public Long getId() { return id; }
@@ -54,5 +58,10 @@ public class Guest {
     public Reservation getReservation() { return reservation; }
 
     public void setReservation(Reservation reservation) { this.reservation = reservation; }
+
+    public Boolean getCovid_certification() { return covid_certification; }
+
+    public void setCovid_certification(Boolean covid_certification) { this.covid_certification = covid_certification; }
+
 
 }

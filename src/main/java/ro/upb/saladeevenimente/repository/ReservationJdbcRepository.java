@@ -3,8 +3,9 @@ package ro.upb.saladeevenimente.repository;
 import ro.upb.saladeevenimente.domain.Reservation;
 
 import java.sql.SQLException;
+import java.sql.Date;
 import java.util.List;
-import java.util.logging.LogManager;
+
 
 public interface ReservationJdbcRepository {
     Reservation addReservation(Reservation reservation) throws SQLException;
@@ -12,5 +13,9 @@ public interface ReservationJdbcRepository {
     List<Reservation> findAllReservationsByUserId(Long userId) throws SQLException;
     void confirmReservation(Long reservationId, Reservation reservation) throws SQLException;
     void editReservation(Long reservationId, Reservation reservation) throws SQLException;
+    List<Reservation> getAllConfirmedReservations(Boolean value) throws SQLException;
+    List<Reservation> getAllReservationsByReservationDate(Date reservationDate) throws SQLException;
+    List<Reservation> getAllReservationsWithoutGuests() throws SQLException;
+    List<String> getReservationByHallDimension() throws SQLException;
 
 }

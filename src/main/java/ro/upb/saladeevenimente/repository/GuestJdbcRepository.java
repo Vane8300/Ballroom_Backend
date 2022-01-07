@@ -11,4 +11,5 @@ public interface GuestJdbcRepository {
     List<Guest> getAllGuests() throws SQLException;
     List<Guest> findAllGuestsByReservationId(Long reservationId) throws SQLException;
     void updateGuest(Long guestId, Guest guest) throws SQLException;
+    int getTheNumberOfGuests(Long reservationId) throws SQLException;
 }

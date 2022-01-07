@@ -18,10 +18,11 @@ public class HallJdbcRepositoryImpl implements HallJdbcRepository {
                 "jdbc:mysql://localhost:3306/proiectbd",
                 "root",
                 "root");
-        PreparedStatement c = connection.prepareStatement("INSERT INTO hall(name, location, dimension)" + "values (?, ?,?)");
+        PreparedStatement c = connection.prepareStatement("INSERT INTO hall(name, location, dimension, price)" + "values (?,?,?,?)");
         c.setString(1, hall.getName());
         c.setString(2, hall.getLocation());
         c.setLong(3, hall.getDimension());
+        c.setInt(4, hall.getPrice());
         boolean resultSet = c.execute();
         return null;
     }
@@ -43,11 +44,12 @@ public class HallJdbcRepositoryImpl implements HallJdbcRepository {
                 "jdbc:mysql://localhost:3306/proiectbd",
                 "root",
                 "root");
-        PreparedStatement c = connection.prepareStatement("UPDATE hall SET name=?, dimension=?, location=?  WHERE id=?");
+        PreparedStatement c = connection.prepareStatement("UPDATE hall SET name=?, dimension=?, location=?, price=? WHERE id=?");
         c.setString(1, hall.getName());
         c.setLong(2, hall.getDimension());
         c.setString(3, hall.getLocation());
-        c.setLong(4, id);
+        c.setInt(4, hall.getPrice());
+        c.setLong(5, id);
         c.executeUpdate();
     }
 
@@ -66,7 +68,8 @@ public class HallJdbcRepositoryImpl implements HallJdbcRepository {
             h = new Hall(resultSet.getLong("id"),
                     resultSet.getString("name"),
                     resultSet.getLong("dimension"),
-                    resultSet.getString("location"));
+                    resultSet.getString("location"),
+                    resultSet.getInt("price"));
             hallList.add(h);
         }
         return hallList;

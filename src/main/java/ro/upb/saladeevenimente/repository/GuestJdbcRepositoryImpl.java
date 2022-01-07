@@ -18,11 +18,12 @@ public class GuestJdbcRepositoryImpl implements GuestJdbcRepository{
                 "root",
                 "root");
         PreparedStatement c = connection.prepareStatement("INSERT INTO guest(first_name, last_name, phone_number," +
-                " reservation_id)" + "values (?,?,?,?)");
+                "covid_certification, reservation_id)" + "values (?,?,?,?,?)");
         c.setString(1, guest.getFirstName());
         c.setString(2, guest.getLastName());
         c.setString(3, guest.getPhone_number());
-        c.setLong(4, guest.getReservation().getId());
+        c.setBoolean(4, guest.getCovid_certification());
+        c.setLong(5, guest.getReservation().getId());
         boolean resultSet = c.execute();
         return null;
     }
@@ -53,7 +54,8 @@ public class GuestJdbcRepositoryImpl implements GuestJdbcRepository{
             g = new Guest(resultSet.getLong("id"),
                     resultSet.getString("first_name"),
                     resultSet.getString("last_name"),
-                    resultSet.getString("phone_number"));
+                    resultSet.getString("phone_number"),
+                    resultSet.getBoolean("covid_certification"));
             guests.add(g);
         }
         return guests;
@@ -75,7 +77,8 @@ public class GuestJdbcRepositoryImpl implements GuestJdbcRepository{
                     resultSet.getLong("id"),
                     resultSet.getString("first_name"),
                     resultSet.getString("last_name"),
-                    resultSet.getString("phone_number"));
+                    resultSet.getString("phone_number"),
+                    resultSet.getBoolean("covid_certification"));
             guests.add(g);
         }
         return guests;
@@ -115,6 +118,24 @@ public class GuestJdbcRepositoryImpl implements GuestJdbcRepository{
 
         }
 
+    }
+
+    // ==================== #2 SIMPLE SUBQUERY WITH COUNT ====================
+    @Override
+    public int getTheNumberOfGuests(Long reservationId) throws SQLException {
+        int noOfGuests = 0;
+        Connection connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/proiectbd",
+                "root",
+                "root");
+        PreparedStatement c = connection.prepareStatement("SELECT COUNT(*) AS noGuests " +
+                "FROM guest WHERE reservation_id=?");
+        c.setLong(1, reservationId);
+        ResultSet resultSet = c.executeQuery();
+        if (resultSet.next()) {
+            noOfGuests = resultSet.getInt(1);
+        }
+        return noOfGuests;
     }
 
 }
