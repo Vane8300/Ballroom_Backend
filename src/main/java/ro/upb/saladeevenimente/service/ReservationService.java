@@ -13,7 +13,6 @@ public interface ReservationService {
     void confirmReservation(Long reservationId, Reservation reservation) throws SQLException;
     void editReservation(Long reservationId, Reservation reservation) throws SQLException;
     List<Reservation> findAllConfirmedReservations(Boolean value) throws SQLException;
-    List<Reservation> findReservationsByReservationDate(Date reservationDate) throws SQLException;
     List<Reservation> findAllReservationsWithoutGuests() throws SQLException;
     List<String> findReservationByHallDimension() throws SQLException;
 }

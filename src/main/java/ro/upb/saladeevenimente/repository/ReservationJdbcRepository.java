@@ -14,7 +14,6 @@ public interface ReservationJdbcRepository {
     void confirmReservation(Long reservationId, Reservation reservation) throws SQLException;
     void editReservation(Long reservationId, Reservation reservation) throws SQLException;
     List<Reservation> getAllConfirmedReservations(Boolean value) throws SQLException;
-    List<Reservation> getAllReservationsByReservationDate(Date reservationDate) throws SQLException;
     List<Reservation> getAllReservationsWithoutGuests() throws SQLException;
     List<String> getReservationByHallDimension() throws SQLException;
 

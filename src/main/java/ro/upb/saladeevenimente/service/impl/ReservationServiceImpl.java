@@ -48,11 +48,6 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public List<Reservation> findReservationsByReservationDate(Date reservationDate) throws SQLException {
-        return reservationJdbcRepository.getAllReservationsByReservationDate(reservationDate);
-    }
-
-    @Override
     public List<Reservation> findAllReservationsWithoutGuests() throws SQLException {
         return reservationJdbcRepository.getAllReservationsWithoutGuests();
     }

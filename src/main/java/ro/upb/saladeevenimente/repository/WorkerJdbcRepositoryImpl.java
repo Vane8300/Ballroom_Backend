@@ -86,4 +86,8 @@ public class WorkerJdbcRepositoryImpl implements  WorkerJdbcRepository{
         }
         return workers;
     }
+
+
+    // ========================================= Subquery #3 ===========================
+
 }

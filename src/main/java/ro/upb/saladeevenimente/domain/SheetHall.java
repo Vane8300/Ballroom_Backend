@@ -8,6 +8,9 @@ public class SheetHall {
     @Id
     Long id;
 
+    @Column(name = "hours_week")
+    private int hoursPerWeek;
+
     @ManyToOne
     @JoinColumn(name = "hall_id")
     Hall hall;
@@ -27,6 +30,10 @@ public class SheetHall {
     public Worker getWorker() { return worker; }
 
     public void setWorker(Worker worker) { this.worker = worker; }
+
+    public int getHoursPerWeek() { return hoursPerWeek; }
+
+    public void setHoursPerWeek(int hoursPerWeek) { this.hoursPerWeek = hoursPerWeek; }
 
 
 }

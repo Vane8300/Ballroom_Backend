@@ -165,30 +165,6 @@ public class ReservationJdbcRepositoryImpl implements ReservationJdbcRepository{
         return reservations;
     }
 
-    @Override
-    public List<Reservation> getAllReservationsByReservationDate(Date reservationDate) throws SQLException {
-        List<Reservation> reservationArrayList = new ArrayList<Reservation>();
-        Reservation reservation = null;
-        Connection connection = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/proiectbd",
-                "root",
-                "root");
-        PreparedStatement c = connection.prepareStatement("SELECT * FROM reservation WHERE reservation_date=?");
-        c.setDate(1, reservationDate);
-        ResultSet resultSet = c.executeQuery();
-        while (resultSet.next()) {
-            reservation = new Reservation(
-                    resultSet.getLong("id"),
-                    resultSet.getBoolean("confirmed"),
-                    resultSet.getString("description"),
-                    resultSet.getDate("reservation_date"),
-                    resultSet.getString("time"));
-            reservationArrayList.add(reservation);
-        }
-
-        return reservationArrayList;
-    }
-
     // ========================================= Subquery #1 ===========================
     @Override
     public List<Reservation> getAllReservationsWithoutGuests() throws SQLException {
@@ -239,7 +215,7 @@ public class ReservationJdbcRepositoryImpl implements ReservationJdbcRepository{
                 "root");
         PreparedStatement c = connection.prepareStatement(
                 "SELECT r.description as Rname FROM reservation R " +
-                        "JOIN hall h ON h.id = R.hall_id WHERE h.dimension < " +
+                        "JOIN hall h ON h.id = R.hall_id WHERE h.dimension = " +
                         "(SELECT max(h.dimension) FROM reservation R JOIN hall h ON R.hall_id = h.id) " +
                         "ORDER BY Rname ASC");
         ResultSet resultSet = c.executeQuery();
@@ -249,6 +225,7 @@ public class ReservationJdbcRepositoryImpl implements ReservationJdbcRepository{
         }
         return reservations_descriptions;
     }
+
 
 
 }

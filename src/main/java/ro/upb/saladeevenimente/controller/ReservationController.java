@@ -52,11 +52,6 @@ public class ReservationController {
         return reservationService.findAllConfirmedReservations(value);
     }
 
-    @CrossOrigin("http://localhost:3000")
-    @GetMapping("/{reservationDate}")
-    public List <Reservation> findReservationsByReservationDate(@PathVariable Date reservationDate) throws SQLException {
-        return reservationService.findReservationsByReservationDate(reservationDate);
-    }
 
     @CrossOrigin("http://localhost:3000")
     @GetMapping("/noGuests")
@@ -65,7 +60,7 @@ public class ReservationController {
     }
 
     @CrossOrigin("http://localhost:3000")
-    @GetMapping("/dimensionLessThanMax")
+    @GetMapping("/dimensionEqualThanMax")
     public List <String> findReservationByHallDimension() throws SQLException {
         return reservationService.findReservationByHallDimension();
     }
