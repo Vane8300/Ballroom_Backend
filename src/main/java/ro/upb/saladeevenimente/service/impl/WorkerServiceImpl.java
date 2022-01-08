@@ -8,6 +8,7 @@ import ro.upb.saladeevenimente.repository.WorkerJdbcRepositoryImpl;
 import ro.upb.saladeevenimente.service.WorkerService;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -23,6 +24,11 @@ public class WorkerServiceImpl implements WorkerService {
     @Override
     public List<Worker> getAllWorkers() throws SQLException {
         return workerJdbcRepository.findAllWorkers();
+    }
+
+    @Override
+    public HashMap<String, Integer> getNumberOfHallsForWorker() throws SQLException {
+        return workerJdbcRepository.findNumberOfHallsForWorker();
     }
 
     @Override

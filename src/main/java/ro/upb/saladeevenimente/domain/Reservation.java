@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.sql.Date;
+//import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -28,7 +29,7 @@ public class Reservation {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Column(name = "reservation_date")
-    private Date reservationDate;
+    private LocalDate reservationDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -42,7 +43,7 @@ public class Reservation {
     @OneToMany(mappedBy = "reservation")
     private List<Guest> guests;
 
-    public Reservation(long id, boolean confirmed, String description, Date reservationDate, String time) {
+    public Reservation(long id, boolean confirmed, String description, LocalDate reservationDate, String time) {
         this.id = id;
         this.confirmed = confirmed;
         this.description = description;
@@ -52,7 +53,7 @@ public class Reservation {
 
     public Reservation() {}
 
-    public Reservation(long id, boolean confirmed, String description, Date reservation_date,
+    public Reservation(long id, boolean confirmed, String description, LocalDate reservation_date,
                        String time, Hall h) {
         this.id = id;
         this.confirmed = confirmed;
@@ -62,9 +63,9 @@ public class Reservation {
         this.hall = h;
     }
 
-    public Date getReservationDate() { return reservationDate; }
+    public LocalDate getReservationDate() { return reservationDate; }
 
-    public void setReservationDate(Date reservationDate) { this.reservationDate = reservationDate; }
+    public void setReservationDate(LocalDate reservationDate) { this.reservationDate = reservationDate; }
 
     public Long getId() { return id; }
 

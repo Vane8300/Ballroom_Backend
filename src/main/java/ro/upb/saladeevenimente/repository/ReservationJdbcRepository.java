@@ -16,5 +16,7 @@ public interface ReservationJdbcRepository {
     List<Reservation> getAllConfirmedReservations(Boolean value) throws SQLException;
     List<Reservation> getAllReservationsWithoutGuests() throws SQLException;
     List<String> getReservationByHallDimension() throws SQLException;
+    List<String> getCheapReservations() throws SQLException;
+    List<String> getExpensiveReservations() throws SQLException;
 
 }

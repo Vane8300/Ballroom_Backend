@@ -7,6 +7,7 @@ import ro.upb.saladeevenimente.service.WorkerService;
 
 import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -33,6 +34,12 @@ public class WorkerController {
     @GetMapping("all/{userId}")
     public List<Worker> getAllWorkersByUserId(@PathVariable Long userId) throws SQLException {
         return workerService.getAllWorkersByUserId(userId);
+    }
+
+    @CrossOrigin("http://localhost:3000")
+    @GetMapping("hallsPerWorker")
+    public HashMap<String, Integer> getNumberOfHallsForWorker() throws SQLException {
+        return workerService.getNumberOfHallsForWorker();
     }
 
 

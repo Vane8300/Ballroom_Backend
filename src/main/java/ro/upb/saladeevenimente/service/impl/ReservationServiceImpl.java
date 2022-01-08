@@ -57,5 +57,15 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationJdbcRepository.getReservationByHallDimension();
     }
 
+    @Override
+    public List<String> findCheapReservations() throws SQLException {
+        return reservationJdbcRepository.getCheapReservations();
+    }
+
+    @Override
+    public List<String> findExpensiveReservations() throws SQLException {
+        return reservationJdbcRepository.getExpensiveReservations();
+    }
+
 
 }

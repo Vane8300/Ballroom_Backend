@@ -65,5 +65,16 @@ public class ReservationController {
         return reservationService.findReservationByHallDimension();
     }
 
+    @CrossOrigin("http://localhost:3000")
+    @GetMapping("/cheapReservations")
+    public List <String> findCheapReservations() throws SQLException {
+        return reservationService.findCheapReservations();
+    }
+
+    @CrossOrigin("http://localhost:3000")
+    @GetMapping("/expensiveReservations")
+    public List <String> findExpensiveReservations() throws SQLException {
+        return reservationService.findExpensiveReservations();
+    }
 
 }

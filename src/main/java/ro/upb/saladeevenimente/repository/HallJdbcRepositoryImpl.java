@@ -61,7 +61,8 @@ public class HallJdbcRepositoryImpl implements HallJdbcRepository {
                 "jdbc:mysql://localhost:3306/proiectbd",
                 "root",
                 "root");
-        PreparedStatement c = connection.prepareStatement("select * from hall");
+        PreparedStatement c = connection.prepareStatement(
+                "select distinct h.* from hall h join reservation r on h.id = r.hall_id");
         ResultSet resultSet = c.executeQuery();
         while(resultSet.next()){
 

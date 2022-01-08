@@ -5,8 +5,7 @@ import ro.upb.saladeevenimente.domain.Reservation;
 import ro.upb.saladeevenimente.domain.Worker;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class WorkerJdbcRepositoryImpl implements  WorkerJdbcRepository{
 
@@ -87,7 +86,25 @@ public class WorkerJdbcRepositoryImpl implements  WorkerJdbcRepository{
         return workers;
     }
 
+    // ========================================= Subquery #5 ===========================
+    @Override
+    public HashMap<String, Integer> findNumberOfHallsForWorker() throws SQLException {
+        HashMap<String, Integer> hallsPerWorker = new HashMap<String, Integer>();
+        Connection connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/proiectbd",
+                "root",
+                "root");
+        PreparedStatement c = connection.prepareStatement(
+                "select w.id, concat(w.first_name,' ',w.last_name) as Name, " +
+                        "(select count(*) from sheet_hall sh where sh.worker_id = w.id) " +
+                        "AS NoHalls " +
+                        "from worker w");
+        ResultSet resultSet = c.executeQuery();
+        while (resultSet.next()) {
+            hallsPerWorker.put(resultSet.getString("Name"), resultSet.getInt("NoHalls"));
+        }
+        return hallsPerWorker;
+    }
 
-    // ========================================= Subquery #3 ===========================
 
 }

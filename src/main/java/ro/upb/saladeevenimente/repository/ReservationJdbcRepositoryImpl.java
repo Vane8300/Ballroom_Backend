@@ -5,6 +5,7 @@ import ro.upb.saladeevenimente.domain.Hall;
 import ro.upb.saladeevenimente.domain.Reservation;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Date;
@@ -21,7 +22,7 @@ public class ReservationJdbcRepositoryImpl implements ReservationJdbcRepository{
                 "description, reservation_date, time, hall_id, user_id)" + "values (?,?,?,?,?,?)");
         c.setBoolean(1, false);
         c.setString(2, reservation.getDescription());
-        c.setDate(3, reservation.getReservationDate());
+        c.setDate(3, Date.valueOf(reservation.getReservationDate()));
         c.setString(4, reservation.getTime());
         c.setLong(5, reservation.getHall().getId());
         c.setLong(6,reservation.getUser().getId());
@@ -71,7 +72,7 @@ public class ReservationJdbcRepositoryImpl implements ReservationJdbcRepository{
                     resultSet.getLong("id"),
                     resultSet.getBoolean("confirmed"),
                     resultSet.getString("description"),
-                    resultSet.getDate("reservation_date"),
+                    resultSet.getDate("reservation_date").toLocalDate(),
                     resultSet.getString("time"),
                     h);
             reservations.add(reservation1);
@@ -100,7 +101,7 @@ public class ReservationJdbcRepositoryImpl implements ReservationJdbcRepository{
         ResultSet resultSet = d.executeQuery();
         if (resultSet.next()) {
             String prev_description = resultSet.getString("description");
-            Date prev_reservation_date = resultSet.getDate("reservation_date");
+            LocalDate prev_reservation_date = resultSet.getDate("reservation_date").toLocalDate();
             String prev_time = resultSet.getString("time");
 
             PreparedStatement c = connection.prepareStatement("UPDATE reservation SET description=?, reservation_date=?," +
@@ -115,7 +116,7 @@ public class ReservationJdbcRepositoryImpl implements ReservationJdbcRepository{
                 reservation.setTime(prev_time);
             }
             c.setString(1, reservation.getDescription());
-            c.setDate(2, reservation.getReservationDate());
+            c.setDate(2, Date.valueOf(reservation.getReservationDate()));
             c.setString(3, reservation.getTime());
             c.setLong(4, reservationId);
             c.executeUpdate();
@@ -157,7 +158,7 @@ public class ReservationJdbcRepositoryImpl implements ReservationJdbcRepository{
                     resultSet.getLong("id"),
                     resultSet.getBoolean("confirmed"),
                     resultSet.getString("description"),
-                    resultSet.getDate("reservation_date"),
+                    resultSet.getDate("reservation_date").toLocalDate(),
                     resultSet.getString("time"),
                     myHall);
             reservations.add(res);
@@ -176,7 +177,9 @@ public class ReservationJdbcRepositoryImpl implements ReservationJdbcRepository{
                 "root",
                 "root");
         PreparedStatement c = connection.prepareStatement(
-                "SELECT * FROM reservation r WHERE r.id != ALL(SELECT g.reservation_id FROM guest g)");
+                "SELECT * FROM reservation " +
+                        "WHERE reservation.id " +
+                        "NOT IN (SELECT g.reservation_id FROM guest g JOIN reservation r ON r.id = g.reservation_id)");
         ResultSet resultSet = c.executeQuery();
         while (resultSet.next()) {
 
@@ -196,7 +199,7 @@ public class ReservationJdbcRepositoryImpl implements ReservationJdbcRepository{
                     resultSet.getLong("id"),
                     resultSet.getBoolean("confirmed"),
                     resultSet.getString("description"),
-                    resultSet.getDate("reservation_date"),
+                    resultSet.getDate("reservation_date").toLocalDate(),
                     resultSet.getString("time"), h);
             reservationArrayList.add(r);
         }
@@ -226,6 +229,54 @@ public class ReservationJdbcRepositoryImpl implements ReservationJdbcRepository{
         return reservations_descriptions;
     }
 
+    // ========================================= Subquery #3 ===========================
 
+    @Override
+    public List<String> getCheapReservations() throws SQLException {
+        List<String> cheap_reservations = new ArrayList<String>();
+        String rd = null;
+        Hall h = null;
+        Connection connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/proiectbd",
+                "root",
+                "root");
+        PreparedStatement c = connection.prepareStatement(
+                "select r.description as Rname " +
+                        "from reservation r " +
+                        "join hall h on r.hall_id = h.id " +
+                        "where h.price < (select avg(h.price) from hall h)\n" +
+                        "order by Rname ASC;");
+        ResultSet resultSet = c.executeQuery();
+        while (resultSet.next()) {
+            rd = resultSet.getString("Rname");
+            cheap_reservations.add(rd);
+        }
+        return cheap_reservations;
+    }
+
+    // ========================================= Subquery #4 ===========================
+
+    @Override
+    public List<String> getExpensiveReservations() throws SQLException {
+        List<String> expensive_reservations = new ArrayList<String>();
+        String rd = null;
+        Hall h = null;
+        Connection connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/proiectbd",
+                "root",
+                "root");
+        PreparedStatement c = connection.prepareStatement(
+                "select r.description as Rname " +
+                        "from reservation r " +
+                        "join hall h on r.hall_id = h.id " +
+                        "where h.price > (select avg(h.price) from hall h)\n" +
+                        "order by Rname ASC;");
+        ResultSet resultSet = c.executeQuery();
+        while (resultSet.next()) {
+            rd = resultSet.getString("Rname");
+            expensive_reservations.add(rd);
+        }
+        return expensive_reservations;
+    }
 
 }

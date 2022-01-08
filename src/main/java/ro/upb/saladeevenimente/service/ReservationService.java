@@ -15,4 +15,6 @@ public interface ReservationService {
     List<Reservation> findAllConfirmedReservations(Boolean value) throws SQLException;
     List<Reservation> findAllReservationsWithoutGuests() throws SQLException;
     List<String> findReservationByHallDimension() throws SQLException;
+    List<String> findCheapReservations() throws SQLException;
+    List<String> findExpensiveReservations() throws SQLException;
 }
