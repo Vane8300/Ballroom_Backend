@@ -59,6 +59,12 @@ public class Worker {
 
     }
 
+    public Worker(String first_name, String last_name, Date start_vacation) {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.start_vacation = start_vacation;
+    }
+
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }

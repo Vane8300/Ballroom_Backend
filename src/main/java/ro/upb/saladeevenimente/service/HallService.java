@@ -13,5 +13,7 @@ public interface HallService {
     void deleteHall(Long id) throws SQLException;
     void updateHall(Long id, Hall hall) throws SQLException;
     List<Hall> findAllHalls() throws SQLException;
+    List<Hall> getAllHallsWithReservations() throws SQLException;
+
 
 }

@@ -37,10 +37,27 @@ public class WorkerController {
     }
 
     @CrossOrigin("http://localhost:3000")
-    @GetMapping("hallsPerWorker")
+    @GetMapping("/hallsPerWorker")
     public HashMap<String, Integer> getNumberOfHallsForWorker() throws SQLException {
         return workerService.getNumberOfHallsForWorker();
     }
 
+    @CrossOrigin("http://localhost:3000")
+    @GetMapping("/hallsWorkers/{hallId}")
+    public int getNoOfWorkersByHallId(@PathVariable Long hallId) throws SQLException {
+        return workerService.getNoOfWorkersByHallId(hallId);
+    }
+
+    @CrossOrigin("http://localhost:3000")
+    @GetMapping("/workersReservations/{hallId}")
+    public List<Worker> getWorkersByHallId(@PathVariable Long hallId) throws SQLException {
+        return workerService.getWorkersByHallId(hallId);
+    }
+
+    @CrossOrigin("http://localhost:3000")
+    @GetMapping("/workersAvailableForAllReservations")
+    public List<Worker> getWorkersAvailableForAllReservations() throws SQLException {
+        return workerService.getWorkersAvailableForAllReservations();
+    }
 
 }

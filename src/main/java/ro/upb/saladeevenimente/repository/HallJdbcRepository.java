@@ -12,4 +12,5 @@ public interface HallJdbcRepository {
     void deleteById(Long id) throws SQLException;
     void update(Long id, Hall hall) throws SQLException;
     List<Hall> show() throws SQLException;
+    List<Hall> getAllHallsWithReservations() throws SQLException;
 }

@@ -8,6 +8,7 @@ import ro.upb.saladeevenimente.domain.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class HallJdbcRepositoryImpl implements HallJdbcRepository {
@@ -62,7 +63,7 @@ public class HallJdbcRepositoryImpl implements HallJdbcRepository {
                 "root",
                 "root");
         PreparedStatement c = connection.prepareStatement(
-                "select distinct h.* from hall h join reservation r on h.id = r.hall_id");
+                "select * from hall");
         ResultSet resultSet = c.executeQuery();
         while(resultSet.next()){
 
@@ -76,5 +77,27 @@ public class HallJdbcRepositoryImpl implements HallJdbcRepository {
         return hallList;
     }
 
+    @Override
+    public List<Hall> getAllHallsWithReservations() throws SQLException {
+        List<Hall> hallList = new ArrayList<Hall>();
+        Hall h = null;
+        Connection connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/proiectbd",
+                "root",
+                "root");
+        PreparedStatement c = connection.prepareStatement(
+                "select distinct h.* from hall h join reservation r on h.id = r.hall_id");
+        ResultSet resultSet = c.executeQuery();
+        while(resultSet.next()){
+
+            h = new Hall(resultSet.getLong("id"),
+                    resultSet.getString("name"),
+                    resultSet.getLong("dimension"),
+                    resultSet.getString("location"),
+                    resultSet.getInt("price"));
+            hallList.add(h);
+        }
+        return hallList;
+    }
 
 }

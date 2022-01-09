@@ -36,5 +36,10 @@ public class HallServiceImpl implements HallService {
         return hallJdbcRepository.show();
     }
 
+    @Override
+    public List<Hall> getAllHallsWithReservations() throws SQLException {
+        return hallJdbcRepository.getAllHallsWithReservations();
+    }
+
 
 }

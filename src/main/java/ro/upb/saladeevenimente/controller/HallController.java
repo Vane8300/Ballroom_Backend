@@ -42,5 +42,10 @@ public class HallController {
         return hallService.findAllHalls();
     }
 
+    @CrossOrigin("http://localhost:3000")
+    @GetMapping("/allHallsWithReservations")
+    public List<Hall> getAllHallsWithReservations() throws SQLException {
+        return hallService.getAllHallsWithReservations();
+    }
 
 }

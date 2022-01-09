@@ -11,4 +11,7 @@ public interface WorkerJdbcRepository {
     List<Worker> findAllWorkers() throws SQLException;
     HashMap<String, Integer> findNumberOfHallsForWorker() throws SQLException;
     List<Worker> findAllWorkersByUserId(Long userId) throws SQLException;
+    List<Worker> getWorkersByHallId(Long hallId) throws SQLException;
+    int getNoOfWorkersByHallId(Long hallId)throws SQLException;
+    List<Worker> getWorkersAvailableForAllReservations() throws SQLException;
 }

@@ -32,7 +32,22 @@ public class WorkerServiceImpl implements WorkerService {
     }
 
     @Override
+    public int getNoOfWorkersByHallId(Long hallId) throws SQLException {
+        return workerJdbcRepository.getNoOfWorkersByHallId(hallId);
+    }
+
+    @Override
     public List<Worker> getAllWorkersByUserId(Long userID) throws SQLException {
         return workerJdbcRepository.findAllWorkersByUserId(userID);
+    }
+
+    @Override
+    public List<Worker> getWorkersByHallId(Long hallId) throws SQLException {
+        return workerJdbcRepository.getWorkersByHallId(hallId);
+    }
+
+    @Override
+    public List<Worker> getWorkersAvailableForAllReservations() throws SQLException {
+        return workerJdbcRepository.getWorkersAvailableForAllReservations();
     }
 }

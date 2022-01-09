@@ -12,6 +12,8 @@ public interface WorkerService {
     Worker addWorker(Worker worker) throws SQLException;
     List<Worker> getAllWorkers() throws SQLException;
     HashMap<String, Integer> getNumberOfHallsForWorker() throws SQLException;
+    int getNoOfWorkersByHallId(Long hallId) throws SQLException;
     List<Worker> getAllWorkersByUserId(Long userId) throws SQLException;
-
+    List<Worker> getWorkersByHallId(Long hallId) throws SQLException;
+    List<Worker> getWorkersAvailableForAllReservations() throws SQLException;
 }

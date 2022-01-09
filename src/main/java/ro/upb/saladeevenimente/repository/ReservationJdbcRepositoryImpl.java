@@ -241,11 +241,11 @@ public class ReservationJdbcRepositoryImpl implements ReservationJdbcRepository{
                 "root",
                 "root");
         PreparedStatement c = connection.prepareStatement(
-                "select r.description as Rname " +
-                        "from reservation r " +
-                        "join hall h on r.hall_id = h.id " +
-                        "where h.price < (select avg(h.price) from hall h)\n" +
-                        "order by Rname ASC;");
+                "SELECT r.description AS Rname " +
+                        "FROM reservation r " +
+                        "JOIN hall h ON r.hall_id = h.id " +
+                        "WHERE h.price < (SELECT avg(h.price) FROM hall h)\n" +
+                        "ORDER BY Rname ASC;");
         ResultSet resultSet = c.executeQuery();
         while (resultSet.next()) {
             rd = resultSet.getString("Rname");
@@ -266,11 +266,11 @@ public class ReservationJdbcRepositoryImpl implements ReservationJdbcRepository{
                 "root",
                 "root");
         PreparedStatement c = connection.prepareStatement(
-                "select r.description as Rname " +
-                        "from reservation r " +
-                        "join hall h on r.hall_id = h.id " +
-                        "where h.price > (select avg(h.price) from hall h)\n" +
-                        "order by Rname ASC;");
+                "SELECT r.description AS Rname " +
+                        "FROM reservation r " +
+                        "JOIN hall h ON r.hall_id = h.id " +
+                        "WHERE h.price > (SELECT avg(h.price) FROM hall h)\n" +
+                        "ORDER BY Rname ASC;");
         ResultSet resultSet = c.executeQuery();
         while (resultSet.next()) {
             rd = resultSet.getString("Rname");
