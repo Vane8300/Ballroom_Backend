@@ -14,4 +14,7 @@ public interface WorkerJdbcRepository {
     List<Worker> getWorkersByHallId(Long hallId) throws SQLException;
     int getNoOfWorkersByHallId(Long hallId)throws SQLException;
     List<Worker> getWorkersAvailableForAllReservations() throws SQLException;
+    List<Worker> getAllWorkersThatEndsVacationBeforeReservations() throws SQLException;
+    List<Worker> getAllWorkersInVacation() throws SQLException;
+    List<Worker> getAllWorkersByLocation(String location) throws SQLException;
 }

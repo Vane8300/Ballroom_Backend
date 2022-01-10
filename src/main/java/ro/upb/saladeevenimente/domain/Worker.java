@@ -59,10 +59,13 @@ public class Worker {
 
     }
 
-    public Worker(String first_name, String last_name, Date start_vacation) {
+    public Worker() {}
+
+    public Worker(String first_name, String last_name, Date start_vacation, Date end_vacation) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.start_vacation = start_vacation;
+        this.end_vacation = end_vacation;
     }
 
     public Long getId() { return id; }

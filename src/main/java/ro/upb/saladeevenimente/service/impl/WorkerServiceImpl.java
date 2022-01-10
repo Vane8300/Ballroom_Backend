@@ -50,4 +50,19 @@ public class WorkerServiceImpl implements WorkerService {
     public List<Worker> getWorkersAvailableForAllReservations() throws SQLException {
         return workerJdbcRepository.getWorkersAvailableForAllReservations();
     }
+
+    @Override
+    public List<Worker> getAllWorkersThatEndsVacationBeforeReservations() throws SQLException {
+        return workerJdbcRepository.getAllWorkersThatEndsVacationBeforeReservations();
+    }
+
+    @Override
+    public List<Worker> getAllWorkersInVacation() throws SQLException {
+        return workerJdbcRepository.getAllWorkersInVacation();
+    }
+
+    @Override
+    public List<Worker> getAllWorkersByLocation(String location) throws SQLException {
+        return workerJdbcRepository.getAllWorkersByLocation(location);
+    }
 }

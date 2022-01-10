@@ -159,6 +159,7 @@ public class WorkerJdbcRepositoryImpl implements  WorkerJdbcRepository{
 
 
     // ========================================= Subquery Complex #1===========================
+    //toti angajatii care incep concediu dupa terminarea rezervarilor
 
     @Override
     public List<Worker> getWorkersAvailableForAllReservations() throws SQLException {
@@ -169,7 +170,7 @@ public class WorkerJdbcRepositoryImpl implements  WorkerJdbcRepository{
                 "root",
                 "root");
         PreparedStatement c = connection.prepareStatement(
-                "select w.first_name,w.last_name, w.start_vacation " +
+                "select w.first_name,w.last_name, w.start_vacation, w.end_vacation " +
                         "from worker w " +
                         "where w.id in (select sh.worker_id from sheet_hall sh where hall_id in " +
                         "(select h.id from hall h  where h.id in (select r.hall_id from reservation r))) " +
@@ -180,11 +181,84 @@ public class WorkerJdbcRepositoryImpl implements  WorkerJdbcRepository{
             w1 = new Worker(
                     resultSet.getString("first_name"),
                     resultSet.getString("last_name"),
-                    resultSet.getDate("start_vacation"));
+                    resultSet.getDate("start_vacation"),
+                    resultSet.getDate("end_vacation"));
             workers.add(w1);
         }
         return workers;
     }
 
+    // ========================================= Subquery Complex #2===========================
+    //toti angajatii care termin concediu inainte de inceperea rezervarilor
+
+    @Override
+    public List<Worker> getAllWorkersThatEndsVacationBeforeReservations() throws SQLException {
+        List<Worker> workers = new ArrayList<Worker>();
+        Worker w1 = null;
+        Connection connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/proiectbd",
+                "root",
+                "root");
+        PreparedStatement c = connection.prepareStatement(
+                "select w.first_name, w.last_name, w.start_vacation, w.end_vacation " +
+                        "from worker w " +
+                        "where w.id in (select sh.worker_id from sheet_hall sh where hall_id in " +
+                        "(select h.id from hall h  where h.id in (select r.hall_id from reservation r))) " +
+                        "and w.end_vacation < (select min(reservation_date) from reservation) " +
+                        "order by w.end_vacation DESC;");
+        ResultSet resultSet = c.executeQuery();
+        while (resultSet.next()) {
+            w1 = new Worker(
+                    resultSet.getString("first_name"),
+                    resultSet.getString("last_name"),
+                    resultSet.getDate("start_vacation"),
+                    resultSet.getDate("end_vacation"));
+            workers.add(w1);
+        }
+        return workers;
+    }
+
+
+    // ========================================= Subquery Complex #3===========================
+    //toti angajatii care au concediu in timpul rezervarilor
+
+
+    @Override
+    public List<Worker> getAllWorkersInVacation() throws SQLException {
+        List<Worker> workers = new ArrayList<Worker>();
+        Worker w1 = null;
+        Connection connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/proiectbd",
+                "root",
+                "root");
+        PreparedStatement c = connection.prepareStatement(
+                "select w.first_name, w.last_name, w.start_vacation, w.end_vacation " +
+                        "from worker w " +
+                        "where w.id in (select sh.worker_id from sheet_hall sh where hall_id in ( " +
+                        "select h.id from hall h  where h.id in (select r.hall_id from reservation r))) " +
+                        "and w.start_vacation > (select min(reservation_date) from reservation)  " +
+                        "and w.end_vacation < (select max(reservation_date) from reservation) " +
+                        "order by w.first_name ASC");
+        ResultSet resultSet = c.executeQuery();
+        while (resultSet.next()) {
+            w1 = new Worker(
+                    resultSet.getString("first_name"),
+                    resultSet.getString("last_name"),
+                    resultSet.getDate("start_vacation"),
+                    resultSet.getDate("end_vacation"));
+            workers.add(w1);
+        }
+        return workers;
+    }
+
+
+
+    // ========================================= Subquery Complex #4===========================
+    // toti angajatii care lucreaza pe o regiune anume
+
+    @Override
+    public List<Worker> getAllWorkersByLocation(String location) throws SQLException {
+        return null;
+    }
 
 }
