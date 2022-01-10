@@ -71,10 +71,17 @@ public class WorkerController {
     public List<Worker> getAllWorkersInVacation() throws SQLException {
         return workerService.getAllWorkersInVacation();
     }
+
     @CrossOrigin("http://localhost:3000")
-    @GetMapping("/workersByLocation")
-    public List<Worker> getAllWorkersByLocation(@PathVariable String location) throws SQLException {
-        return workerService.getAllWorkersByLocation(location);
+    @GetMapping("/workersForExpensiveHalls")
+    public List<Worker> getWorkersWithExpensiveHalls() throws SQLException {
+        return workerService.getWorkersWithExpensiveHalls();
+    }
+
+    @CrossOrigin("http://localhost:3000")
+    @GetMapping("/workersForCheapHalls")
+    public List<Worker> getWorkersWithCheapHalls() throws SQLException {
+        return workerService.getWorkersWithCheapHalls();
     }
 
 }

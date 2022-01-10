@@ -62,7 +62,13 @@ public class WorkerServiceImpl implements WorkerService {
     }
 
     @Override
-    public List<Worker> getAllWorkersByLocation(String location) throws SQLException {
-        return workerJdbcRepository.getAllWorkersByLocation(location);
+    public List<Worker> getWorkersWithExpensiveHalls() throws SQLException {
+        return workerJdbcRepository.getWorkersWithExpensiveHalls();
     }
+
+    @Override
+    public List<Worker> getWorkersWithCheapHalls() throws SQLException {
+        return workerJdbcRepository.getWorkersWithCheapHalls();
+    }
+
 }

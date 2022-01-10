@@ -251,14 +251,61 @@ public class WorkerJdbcRepositoryImpl implements  WorkerJdbcRepository{
         return workers;
     }
 
-
-
     // ========================================= Subquery Complex #4===========================
-    // toti angajatii care lucreaza pe o regiune anume
+    // toti angajatii care lucreaza la salile cele mai scumpe sortati crescator dupa numele de fam
 
     @Override
-    public List<Worker> getAllWorkersByLocation(String location) throws SQLException {
-        return null;
+    public List<Worker> getWorkersWithExpensiveHalls() throws SQLException {
+        List<Worker> workers = new ArrayList<Worker>();
+        Worker w1 = null;
+        Connection connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/proiectbd",
+                "root",
+                "root");
+        PreparedStatement c = connection.prepareStatement(
+                "select w.first_name, w.last_name " +
+                        "from worker w " +
+                        "where w.id in (select sh.worker_id from sheet_hall sh where hall_id in ( " +
+                        "select h.id from hall h  where h.id in (select r.hall_id from reservation r) " +
+                        "and h.price > (select avg(price) from hall))) " +
+                        "order by w.first_name ASC");
+        ResultSet resultSet = c.executeQuery();
+        while (resultSet.next()) {
+            w1 = new Worker(
+                    resultSet.getString("first_name"),
+                    resultSet.getString("last_name"));
+            workers.add(w1);
+        }
+        return workers;
     }
+
+    // ========================================= Subquery Complex #5===========================
+    // toti angajatii care lucreaza la salile cele mai ieftine sortati crescator dupa numele de fam
+
+    @Override
+    public List<Worker> getWorkersWithCheapHalls() throws SQLException {
+        List<Worker> workers = new ArrayList<Worker>();
+        Worker w1 = null;
+        Connection connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/proiectbd",
+                "root",
+                "root");
+        PreparedStatement c = connection.prepareStatement(
+                "select w.first_name, w.last_name " +
+                        "from worker w " +
+                        "where w.id in (select sh.worker_id from sheet_hall sh where hall_id in ( " +
+                        "select h.id from hall h  where h.id in (select r.hall_id from reservation r) " +
+                        "and h.price < (select avg(price) from hall))) " +
+                        "order by w.first_name ASC");
+        ResultSet resultSet = c.executeQuery();
+        while (resultSet.next()) {
+            w1 = new Worker(
+                    resultSet.getString("first_name"),
+                    resultSet.getString("last_name"));
+            workers.add(w1);
+        }
+        return workers;
+    }
+
 
 }
